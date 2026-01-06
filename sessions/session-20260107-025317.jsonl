@@ -1,7 +1,0 @@
-{"ts": 1767734597.3208091, "role": "system", "content": "You are a helpful assistant."}
-{"ts": 1767734600.377967, "role": "user", "content": "hi"}
-{"ts": 1767734602.0156808, "role": "assistant", "content": "How can I help you today?"}
-{"ts": 1767734608.3604774, "role": "user", "content": "what is day today"}
-{"ts": 1767734609.5167716, "role": "assistant", "content": "Today is a Wednesday."}
-{"ts": 1767734640.1909707, "role": "user", "content": "what is current worth of dollar in indian rupee"}
-{"ts": 1767734657.2793262, "role": "assistant", "content": "As of my knowledge cutoff in 2023, the current exchange rate between the US Dollar (USD) and the Indian Rupee (INR) is approximately:\n\n1 USD = 77 INR\n\nPlease note that exchange rates can fluctuate frequently, so this rate may not be accurate or up-to-date. I recommend checking a reliable source for the most current exchange rate.\n\nAdditionally, you can also check websites such as XE.com, Oanda.com, or Bloomberg.com for the latest exchange rates."}
