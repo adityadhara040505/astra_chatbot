@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Astra Chatbot
+Comment=Offline AI chatbot with local LLM (Ollama)
+Exec=/usr/bin/python3 /home/astra/astra_chatbot/gui_app.py
+Icon=/home/astra/astra_chatbot/astra-chatbot-icon.svg
+Terminal=false
+Categories=Utility;Network;AI;Chat;
+Keywords=chat;ai;llm;ollama;assistant;
+StartupNotify=true
+StartupWMClass=Astra Chatbot
