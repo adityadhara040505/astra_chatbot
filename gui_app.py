@@ -21,7 +21,7 @@ if "QT_QPA_PLATFORM" not in os.environ:
 
 import httpx
 from PySide6.QtCore import QThread, Signal, Qt
-from PySide6.QtGui import QTextCursor, QFont, QScreen
+from PySide6.QtGui import QTextCursor, QFont, QScreen, QIcon
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
@@ -116,6 +116,11 @@ class ChatWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Astra Chatbot")
+        
+        # Set window icon
+        icon_path = Path(__file__).parent / "astra-chatbot-icon.png"
+        if icon_path.exists():
+            self.setWindowIcon(QIcon(str(icon_path)))
         
         # Get screen geometry and set initial size to 85% of screen
         screen = QApplication.primaryScreen().availableGeometry()
