@@ -1,51 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
-  <!-- Gradient background -->
-  <defs>
-    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
-    </linearGradient>
-  </defs>
+  <!-- White/light background bubble (back) -->
+  <circle cx="155" cy="100" r="70" fill="white" stroke="#1a1a1a" stroke-width="8"/>
   
-  <!-- Background circle -->
-  <circle cx="128" cy="128" r="120" fill="url(#grad1)"/>
+  <!-- Chat lines in white bubble -->
+  <rect x="130" y="75" width="50" height="6" rx="3" fill="#1a1a1a"/>
+  <rect x="130" y="90" width="50" height="6" rx="3" fill="#1a1a1a"/>
+  <rect x="130" y="105" width="40" height="6" rx="3" fill="#1a1a1a"/>
   
-  <!-- Chat bubble -->
-  <path d="M 80 90 
-           Q 80 70, 100 70 
-           L 180 70 
-           Q 200 70, 200 90 
-           L 200 140 
-           Q 200 160, 180 160 
-           L 120 160 
-           L 100 180 
-           L 100 160 
-           L 100 160 
-           Q 80 160, 80 140 
-           Z" 
-        fill="white" opacity="0.95"/>
+  <!-- Tail for white bubble -->
+  <path d="M 200 140 L 215 155 L 205 140 Z" fill="white" stroke="#1a1a1a" stroke-width="5" stroke-linejoin="round"/>
   
-  <!-- AI sparkle/star 1 -->
-  <circle cx="110" cy="100" r="6" fill="url(#grad2)"/>
-  <path d="M 110 88 L 112 96 L 110 104 L 108 96 Z" fill="url(#grad2)"/>
-  <path d="M 98 100 L 106 102 L 114 100 L 106 98 Z" fill="url(#grad2)"/>
+  <!-- Black/dark background bubble (front) -->
+  <circle cx="90" cy="150" r="75" fill="#1a1a1a"/>
   
-  <!-- AI sparkle/star 2 -->
-  <circle cx="150" cy="110" r="5" fill="url(#grad2)"/>
-  <path d="M 150 100 L 152 107 L 150 114 L 148 107 Z" fill="url(#grad2)"/>
-  <path d="M 140 110 L 147 112 L 154 110 L 147 108 Z" fill="url(#grad2)"/>
+  <!-- AI text in black bubble -->
+  <text x="90" y="170" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="white" text-anchor="middle">AI</text>
   
-  <!-- AI sparkle/star 3 -->
-  <circle cx="170" cy="130" r="4" fill="url(#grad2)"/>
-  <path d="M 170 122 L 171 128 L 170 134 L 169 128 Z" fill="url(#grad2)"/>
-  <path d="M 162 130 L 168 131 L 174 130 L 168 129 Z" fill="url(#grad2)"/>
-  
-  <!-- Text dots (typing indicator style) -->
-  <circle cx="120" cy="135" r="5" fill="#667eea" opacity="0.7"/>
-  <circle cx="140" cy="135" r="5" fill="#667eea" opacity="0.7"/>
-  <circle cx="160" cy="135" r="5" fill="#667eea" opacity="0.7"/>
+  <!-- Tail for black bubble -->
+  <path d="M 40 210 L 25 230 L 35 210 Z" fill="#1a1a1a"/>
 </svg>
