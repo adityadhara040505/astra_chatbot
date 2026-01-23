@@ -31,3 +31,11 @@ Thumbs.db
 # Backup files
 *.broken
 *.bak
+*.old
+
+# Build artifacts
+*.deb
+*.rpm
+
+# Cache
+*.cache.json

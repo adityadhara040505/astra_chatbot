@@ -1,106 +1,185 @@
-# Astra Chatbot (Offline)
+# Astra Chatbot - Intelligent Linux Assistant
 
-An offline Linux chat application that talks to a locally installed LLM via the Ollama API (localhost:11434). No internet is required once your model is pulled.
+An intelligent Linux assistant that combines LLM chat capabilities with smart command execution using the Ubuntu Linux Toolbox knowledge base.
+
+## Features
+
+✨ **Smart Command Execution**
+- Understands natural language commands (e.g., "Install VS Code")
+- Uses Ubuntu Linux Toolbox PDF as knowledge base
+- Automatic retry with error analysis (up to 5 attempts)
+- LLM-powered error diagnosis and fix suggestions
+
+💬 **Chat Interface**
+- Modern dark/light theme
+- Chat history with sessions
+- Export conversations to Markdown
+- Streaming LLM responses
+
+🎯 **Intelligent Features**
+- Detects command vs. conversation intent
+- Searches PDF for relevant commands
+- Learns from errors and tries alternatives
+- Provides detailed execution summaries
 
 ## Prerequisites
-- Linux with Ollama installed and service running.
-- At least one local model (e.g., `llama3.2:1b`).
 
-Verify:
+- Linux (Ubuntu/Debian recommended)
+- Ollama installed and running
+- At least one LLM model (e.g., `qwen2.5:0.5b`)
+
+### Install Ollama
 ```bash
-command -v ollama && systemctl is-active ollama
-curl -sS http://localhost:11434/api/tags | jq
+curl -fsSL https://ollama.com/install.sh | sh
+sudo systemctl enable --now ollama
+ollama pull qwen2.5:0.5b
 ```
 
 ## Quick Start
-1. Create a Python environment and install deps:
+
+1. **Clone and setup:**
 ```bash
+cd /home/astra/astra_chatbot
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-2. Optional: set model and system prompt via environment variables:
+2. **Run the application:**
 ```bash
-export ASTRA_CHATBOT_MODEL=llama3.2:1b
-export ASTRA_CHATBOT_SYSTEM="You are a helpful assistant."
+python astra_chatbot.py
 ```
 
-3. Run the chat app:
-```bash
-python app.py
+## Usage Examples
+
+### Command Execution
+Just type natural language commands:
+- "Install VS Code"
+- "Update all packages"
+- "Install Docker"
+- "Setup Python development environment"
+
+The system will:
+1. 🤖 Understand your request using LLM
+2. 📖 Search Ubuntu Linux Toolbox for relevant commands
+3. ⚡ Execute commands with automatic retry
+4. 🔍 Analyze errors and try alternatives if needed
+5. ✅ Report success or detailed error summary
+
+### Regular Chat
+Ask questions or have conversations:
+- "How do I check disk space?"
+- "What's the difference between apt and snap?"
+- "Explain Linux file permissions"
+
+## How It Works
+
+### Intelligent Command Execution Flow
+
+1. **Intent Detection**: LLM determines if input is a command or question
+2. **Knowledge Search**: Searches Ubuntu Linux Toolbox PDF for relevant info
+3. **Command Generation**: LLM generates appropriate shell commands
+4. **Execution with Retry**: Runs commands with up to 5 retry attempts
+5. **Error Analysis**: On failure, LLM analyzes error and suggests fixes
+6. **Alternative Attempts**: Tries different approaches automatically
+7. **Summary Report**: Provides detailed success/failure summary
+
+### Example: "Install VS Code"
+
+```
+🤖 Understanding request: Install VS Code
+📋 Identified 3 command(s) to execute
+
+Command 1/3: wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+🔄 Attempt 1/5
+✅ Command succeeded!
+
+Command 2/3: sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+🔄 Attempt 1/5
+✅ Command succeeded!
+
+Command 3/3: sudo apt update && sudo apt install code
+🔄 Attempt 1/5
+✅ Command succeeded!
+
+✅ Successfully executed all commands
 ```
 
-Type `exit` to quit. Session transcripts are saved under `sessions/`.
+## Configuration
 
-## GUI (Linux Desktop)
-Run the native GUI built with PySide6:
+### Environment Variables
 ```bash
-python gui_app.py
+export ASTRA_CHATBOT_MODEL="qwen2.5:0.5b"  # LLM model to use
+export OLLAMA_API="http://localhost:11434"  # Ollama API endpoint
 ```
 
-Headless check (lists local models without launching the window):
-```bash
-python gui_app.py --check
+### Model Selection
+- **qwen2.5:0.5b** (Default) - Fastest, good for most tasks
+- **llama3.2:1b** - Balanced performance
+- **phi3:latest** - Most accurate, slower
+
+## Project Structure
+
+```
+astra_chatbot/
+├── astra_chatbot.py           # Main GUI application
+├── command_executor.py        # Intelligent command execution engine
+├── pdf_knowledge_base.py      # PDF search and extraction
+├── ubuntu-linux-toolbox...pdf # Knowledge base
+├── requirements.txt           # Python dependencies
+└── sessions/                  # Chat history
 ```
 
-### GUI Features
-- Modern light/dark theme toggle
-- Model picker + refresh
-- New Chat to start a fresh session
-- Export current session to Markdown in `sessions/`
-- Streaming responses with clear role labels
+## Troubleshooting
 
-### Optional: Add to Desktop Menu
-Create a local desktop entry:
+### Ollama Not Running
 ```bash
-mkdir -p ~/.local/share/applications
-cat > ~/.local/share/applications/astra-chatbot.desktop << 'EOF'
-[Desktop Entry]
-Type=Application
-Name=Astra Chatbot
-Comment=Offline chat with local LLM (Ollama)
-Exec=/usr/bin/env python3 /home/astra/astra_chatbot/gui_app.py
-Icon=utilities-terminal
-Terminal=false
-Categories=Utility;AI;
-EOF
-update-desktop-database ~/.local/share/applications || true
+sudo systemctl status ollama
+sudo systemctl start ollama
 ```
 
-### Troubleshooting (Qt xcb plugin on Ubuntu/Debian)
-If you see errors like "Could not load the Qt platform plugin 'xcb'", install the missing XCB libraries:
+### Qt/GUI Issues
 ```bash
-sudo apt update
-sudo apt install -y libxcb-cursor0 libxcb-xinerama0 libxcb-icccm4 libxcb-render-util0 libxkbcommon-x11-0
+# Install Qt dependencies
+sudo apt install -y libxcb-cursor0 libxcb-xinerama0 libxcb-icccm4 \
+                    libxcb-render-util0 libxkbcommon-x11-0
+
+# Try different platform
+QT_QPA_PLATFORM=xcb python astra_chatbot.py
 ```
 
-On Wayland sessions, you can force Wayland:
-```bash
-QT_QPA_PLATFORM=wayland python3 gui_app.py
-```
+### PDF Not Loading
+The Ubuntu Linux Toolbox PDF should be in the same directory as the application.
+On first run, it will extract and cache the content (may take a minute).
 
-On X11 sessions, ensure `QT_QPA_PLATFORM` is `xcb` (default in the app). If issues persist, try:
-```bash
-QT_QPA_PLATFORM=xcb python3 gui_app.py
-```
+## Features in Detail
 
-If `python` is not found, use `python3` everywhere or install the alias:
-```bash
-sudo apt install -y python-is-python3
-```
+### Retry Logic
+- Attempts each command up to 5 times
+- Analyzes error messages using LLM
+- Searches PDF for error-specific solutions
+- Tries alternative commands automatically
 
-## Models
-List models:
-```bash
-ollama list
-```
-Pull a model (example):
-```bash
-ollama pull llama3.2:1b
-```
+### Error Analysis
+When a command fails:
+1. Captures error output
+2. Sends to LLM with PDF context
+3. Gets explanation and fix suggestions
+4. Extracts alternative commands
+5. Retries with new approach
 
-## Notes
-- The app streams responses using `POST /api/chat`.
-- If the API is unreachable, start the service: `sudo systemctl enable --now ollama`.
-- Configure defaults with env vars: `ASTRA_CHATBOT_MODEL`, `ASTRA_CHATBOT_SYSTEM`.
+### Knowledge Base
+- Extracts all content from Ubuntu Linux Toolbox PDF
+- Creates searchable cache for fast lookups
+- Provides context-aware command suggestions
+- Updates automatically if PDF changes
+
+## License
+
+MIT License - See project repository for details
+
+## Credits
+
+- Ubuntu Linux Toolbox reference material
+- Ollama for local LLM inference
+- PySide6 for GUI framework
